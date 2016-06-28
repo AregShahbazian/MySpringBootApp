@@ -1,0 +1,12 @@
+/bin
+/build
+/gradle
+gradlew
+gradlew.bat
+/logs
+.classpath
+.gradle
+.project
+.settings
+run
+src/main/resources/application.yml
