@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
 @RequestMapping(value = "DomainEntitySimpleEndpoint")
-@Api(value = "Verkoop", produces = "application/json", description = "Operaties betreffende verkoopberichten")
+@Api(produces = "application/json")
 public class DomainEntitySimpleController
 {
 
