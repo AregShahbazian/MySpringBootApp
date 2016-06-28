@@ -3,7 +3,6 @@ package com.myspingbootapp.controllers;
 import com.myspingbootapp.domain.dto.DomainEntitySimpleDTO;
 import com.myspingbootapp.domain.dto.ValidationErrorDTO;
 import com.myspingbootapp.domain.mapping.custom.DomainEntitySimple_DTO2Model_Custom;
-import com.myspingbootapp.domain.mapping.mapstruct.DomainEntitySimpleMapper;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.myspingbootapp.domain.model.DomainEntitySimple;
@@ -32,9 +31,6 @@ public class DomainEntitySimpleController
 	@Autowired
 	IDomainEntityRepository domainEntityRepository;
 
-/*	@Autowired
-	DomainEntitySimpleMapper domainEntitySimpleMapper;*/
-
 	@RequestMapping(
 			value = "Add",
 			method = RequestMethod.POST,
@@ -47,7 +43,7 @@ public class DomainEntitySimpleController
 	)
 	public ResponseEntity addDomainEntitySimple(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO)
 	{
-/*		ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO();
+		ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO();
 
 		DomainEntitySimple_DTO2Model_Custom domainEntitySimple_dto2Model_custom = new DomainEntitySimple_DTO2Model_Custom();
 		DomainEntitySimple domainEntitySimple = domainEntitySimple_dto2Model_custom.map(domainEntitySimpleDTO, validationErrorDTO);
@@ -62,12 +58,7 @@ public class DomainEntitySimpleController
 		{
 			return new ResponseEntity<ValidationErrorDTO>(validationErrorDTO, HttpStatus.OK);
 
-		}*/
-
-		DomainEntitySimple domainEntitySimple = DomainEntitySimpleMapper.INSTANCE.domainEntitySimpleDTOToDomainEntitySimple(domainEntitySimpleDTO);
-		//DomainEntitySimple domainEntitySimple = domainEntitySimpleMapper.domainEntitySimpleDTOToDomainEntitySimple(domainEntitySimpleDTO);
-
-		return new ResponseEntity<DomainEntitySimple>(domainEntitySimple, HttpStatus.OK);
+		}
 
 	}
 
