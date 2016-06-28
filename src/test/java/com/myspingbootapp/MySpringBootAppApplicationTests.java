@@ -1,5 +1,6 @@
 package com.myspingbootapp;
 
+import com.myspingbootapp.domain.mapping.modelmapper.DomainEntitySimpleModelToDTO;
 import com.myspingbootapp.domain.model.DomainEntityHierarchical;
 import com.myspingbootapp.domain.model.DomainEntitySimple;
 import com.myspingbootapp.persistence.IDomainEntityHierarchicalRepository;
@@ -12,40 +13,39 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myspingbootapp.persistence.IDomainEntityRepository;
+import com.myspingbootapp.persistence.IDomainEntitySimpleRepository;
 
 import junit.framework.TestCase;
-
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = MySpringBootAppApplication.class)
 @WebAppConfiguration
 @Transactional
-@Rollback(false)    // Don't roll back transactions (database changes);
-public class MySpringBootAppApplicationTests extends TestCase
-{
+@Rollback(false) // Don't roll back transactions (database changes);
+public class MySpringBootAppApplicationTests extends TestCase {
 
 	@Autowired
-	IDomainEntityRepository domainEntityRepository;
+	IDomainEntitySimpleRepository domainEntitySimpleRepository;
 
 	@Autowired
 	IDomainEntityHierarchicalRepository domainEntityHierarchicalRepository;
 
+	@Autowired
+	DomainEntitySimpleModelToDTO domainEntitySimpleModelToDTO;
+
 	@Test
-	public void insertDomainEntity()
-	{
+	public void insertDomainEntity() {
 		DomainEntitySimple domainEntitySimple = new DomainEntitySimple();
 		domainEntitySimple.setEntity_name("Entity nr 1");
 
-		domainEntityRepository.save(domainEntitySimple);
+		domainEntitySimpleRepository.save(domainEntitySimple);
 
 		assertEquals(false, false);
 
 	}
 
 	@Test
-	public void insertDomainEntityHierarchical()
-	{
+	public void insertDomainEntityHierarchical() {
 		DomainEntityHierarchical domainEntityHierarchical = new DomainEntityHierarchical();
 		domainEntityHierarchical.setHierarchical_entity_name("Name of hierarchical entity");
 
@@ -65,9 +65,12 @@ public class MySpringBootAppApplicationTests extends TestCase
 	}
 
 	@Test
-	public void foo()
-	{
-	
+	public void getById() {
+
+		DomainEntitySimple domainEntitySimple = domainEntitySimpleRepository.getDomainEntitySimpleById(1);
+
+		assertEquals((Integer) 1, (Integer) domainEntitySimple.getId());
+
 	}
 
 }

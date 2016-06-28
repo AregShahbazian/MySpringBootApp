@@ -15,6 +15,11 @@ public class DomainEntitySimple_DTO2Model_Custom
 
 		DomainEntitySimple domainEntitySimple = new DomainEntitySimple();
 
+		if (domainEntitySimpleDTO.getId() != null)
+		{
+			domainEntitySimple.setId(domainEntitySimpleDTO.getId());
+		}
+		
 		if (domainEntitySimpleDTO.getName() != null)
 		{
 			domainEntitySimple.setEntity_name(domainEntitySimpleDTO.getName());
