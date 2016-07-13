@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en-US">
+
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="resources/js/myApp.js"></script>
+
 <body>
 <p th:text="'Hello, ' + ${name} + '!'"/>
 
@@ -13,7 +16,6 @@
 	Full Name: {{firstName + " " + lastName}}
 
 </div>
-
 
 <script>
 	var app = angular.module('myApp', []);
