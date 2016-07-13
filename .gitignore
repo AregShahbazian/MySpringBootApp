@@ -8,5 +8,6 @@ gradlew.bat
 .gradle
 .project
 .settings
+.idea
 run
 src/main/resources/application.yml

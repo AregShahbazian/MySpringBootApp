@@ -5,7 +5,8 @@ import com.myspingbootapp.domain.dto.ValidationErrorDTO;
 import com.myspingbootapp.domain.mapping.custom.DomainEntitySimple_DTO2Model_Custom;
 import com.myspingbootapp.domain.mapping.modelmapper.DomainEntitySimpleModelToDTO;
 
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import com.myspingbootapp.domain.model.DomainEntitySimple;
 import com.myspingbootapp.persistence.IDomainEntitySimpleRepository;
@@ -19,15 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @RestController
 @RequestMapping(value = "DomainEntitySimpleEndpoint")
 @Api(produces = "application/json")
-public class DomainEntitySimpleController {
+public class DomainEntitySimpleController
+{
 
 	@Autowired
 	Environment env;
@@ -38,28 +36,33 @@ public class DomainEntitySimpleController {
 	@Autowired
 	DomainEntitySimpleModelToDTO domainEntitySimpleModelToDTO;
 
-	@RequestMapping(value = "Add", method = RequestMethod.POST, produces = { "application/json" })
+	@RequestMapping(value = "Add", method = RequestMethod.POST, produces = {"application/json"})
 	@ApiOperation(value = "Add a DomainEntitySimple object to the database", notes = "Not secured", response = ResponseEntity.class)
-	public ResponseEntity addDomainEntitySimple(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO) {
+	public ResponseEntity addDomainEntitySimple(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO)
+	{
 		ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO();
 
 		DomainEntitySimple_DTO2Model_Custom domainEntitySimple_dto2Model_custom = new DomainEntitySimple_DTO2Model_Custom();
 		DomainEntitySimple domainEntitySimple = domainEntitySimple_dto2Model_custom.map(domainEntitySimpleDTO,
 				validationErrorDTO);
 
-		if (validationErrorDTO.getErrors().size() == 0) {
+		if (validationErrorDTO.getErrors().size() == 0)
+		{
 			Integer id = domainEntitySimpleRepository.save(domainEntitySimple);
 			return new ResponseEntity(domainEntitySimpleRepository.getDomainEntitySimpleById(id), HttpStatus.OK);
 
-		} else {
+		}
+		else
+		{
 			return new ResponseEntity(validationErrorDTO, HttpStatus.OK);
 
 		}
 
 	}
 
-	@RequestMapping(value = "GetById/{id}", method = RequestMethod.POST, produces = { "application/json" })
-	public ResponseEntity getById(@PathVariable("id") Integer id) {
+	@RequestMapping(value = "GetById/{id}", method = RequestMethod.POST, produces = {"application/json"})
+	public ResponseEntity getById(@PathVariable("id") Integer id)
+	{
 
 		DomainEntitySimple domainEntitySimple = domainEntitySimpleRepository.getDomainEntitySimpleById(id);
 
@@ -67,8 +70,9 @@ public class DomainEntitySimpleController {
 
 	}
 
-	@RequestMapping(value = "Update", method = RequestMethod.POST, produces = { "application/json" })
-	public ResponseEntity update(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO) {
+	@RequestMapping(value = "Update", method = RequestMethod.POST, produces = {"application/json"})
+	public ResponseEntity update(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO)
+	{
 
 		ValidationErrorDTO validationErrorDTO = new ValidationErrorDTO();
 
@@ -76,30 +80,38 @@ public class DomainEntitySimpleController {
 		DomainEntitySimple domainEntitySimple = domainEntitySimple_dto2Model_custom.map(domainEntitySimpleDTO,
 				validationErrorDTO);
 
-		if (validationErrorDTO.getErrors().size() == 0) {
+		if (validationErrorDTO.getErrors().size() == 0)
+		{
 			domainEntitySimpleRepository.update(domainEntitySimple);
 			return new ResponseEntity(HttpStatus.OK);
 
-		} else {
+		}
+		else
+		{
 			return new ResponseEntity(validationErrorDTO, HttpStatus.OK);
 
 		}
 
 	}
 
-	@RequestMapping(value = "Map", method = RequestMethod.POST, produces = { "application/json" })
-	public ResponseEntity map(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO) {
+	@RequestMapping(value = "Map", method = RequestMethod.POST, produces = {"application/json"})
+	public ResponseEntity map(@RequestBody DomainEntitySimpleDTO domainEntitySimpleDTO)
+	{
 		System.out.println(domainEntitySimpleDTO.getName());
-		
+
 		DomainEntitySimple domainEntitySimple;
-		try {
+		try
+		{
 			domainEntitySimple = domainEntitySimpleModelToDTO.convertToEntity(domainEntitySimpleDTO);
 			System.out.println(domainEntitySimple.getEntity_name());
 			return new ResponseEntity(domainEntitySimple, HttpStatus.OK);
-		} catch (ParseException e) {
+		}
+		catch (ParseException e)
+		{
 			return new ResponseEntity(HttpStatus.OK);
 		}
 
 	}
+
 
 }
