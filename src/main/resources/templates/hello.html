@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en-US">
 
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<script src="/static/js/myApp.js" th:src="@{/static/js/myApp.js}"></script>
+<script src="../static/js/myApp.js" th:src="@{/static/js/myApp.js}"></script>
 
 <body>
-<p th:text="'Hello, ' + ${name} + '!'"/>
+<p th:text="'Hello ' +(*{name == 'Foo'}? *{name} : '(no age specified)')"/>
 
 
 <div ng-app="myApp" ng-controller="myCtrl" ng-init="lastName='DoeInit'">
@@ -16,6 +16,13 @@
 	Full Name: {{firstName + " " + lastName}}
 
 </div>
+
+<table>
+	<tr th:each="str : ${list}">
+		<td th:text="${str}">Onions</td>
+	</tr>
+</table>
+
 
 </body>
 </html> 
