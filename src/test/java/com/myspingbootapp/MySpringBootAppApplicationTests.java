@@ -1,9 +1,5 @@
 package com.myspingbootapp;
 
-import com.myspingbootapp.domain.mapping.modelmapper.DomainEntitySimpleModelToDTO;
-import com.myspingbootapp.domain.model.DomainEntityHierarchical;
-import com.myspingbootapp.domain.model.DomainEntitySimple;
-import com.myspingbootapp.persistence.IDomainEntityHierarchicalRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +9,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.myspingbootapp.persistence.IDomainEntitySimpleRepository;
+import com.myspingbootapp.domain.model.Article;
+import com.myspingbootapp.domain.model.ArticleOrderRow;
+import com.myspingbootapp.domain.model.ArticleOrder;
+import com.myspingbootapp.domain.model.User;
+import com.myspingbootapp.persistence.hibernate.ArticleOrderRowRepository;
+import com.myspingbootapp.persistence.hibernate.ArticleRepository;
+import com.myspingbootapp.persistence.hibernate.ArticleOrderRepository;
+import com.myspingbootapp.persistence.hibernate.UserRepository;
 
 import junit.framework.TestCase;
 
@@ -25,52 +28,67 @@ import junit.framework.TestCase;
 public class MySpringBootAppApplicationTests extends TestCase {
 
 	@Autowired
-	IDomainEntitySimpleRepository domainEntitySimpleRepository;
+	UserRepository userRepository;
 
 	@Autowired
-	IDomainEntityHierarchicalRepository domainEntityHierarchicalRepository;
+	ArticleRepository artikelRepository;
 
 	@Autowired
-	DomainEntitySimpleModelToDTO domainEntitySimpleModelToDTO;
+	ArticleOrderRowRepository artikelOrderRowRepository;
 
-	@Test
-	public void insertDomainEntity() {
-		DomainEntitySimple domainEntitySimple = new DomainEntitySimple();
-		domainEntitySimple.setEntity_name("Entity nr 1");
+	@Autowired
+	ArticleOrderRepository artikelOrderRepository;
 
-		domainEntitySimpleRepository.save(domainEntitySimple);
+	//@Test
+	public void insertUser() {
 
-		assertEquals(false, false);
+		int countBefore = userRepository.count();
 
-	}
+		User areg = new User();
+		areg.setUsername("Areg");
+		userRepository.save(areg);
 
-	@Test
-	public void insertDomainEntityHierarchical() {
-		DomainEntityHierarchical domainEntityHierarchical = new DomainEntityHierarchical();
-		domainEntityHierarchical.setHierarchical_entity_name("Name of hierarchical entity");
+		int countAfter = userRepository.count();
 
-		DomainEntitySimple sub_entity_required = new DomainEntitySimple();
-		sub_entity_required.setEntity_name("Name of sub_entity_required");
-
-		DomainEntitySimple sub_entity_optional = new DomainEntitySimple();
-		sub_entity_optional.setEntity_name("Name of sub_entity_optional");
-
-		domainEntityHierarchical.setSub_entity_required(sub_entity_required);
-		domainEntityHierarchical.setSub_entity_optional(sub_entity_optional);
-
-		domainEntityHierarchicalRepository.save(domainEntityHierarchical);
-
-		assertEquals(false, false);
+		assertEquals(countAfter, countBefore + 1);
 
 	}
 
 	@Test
-	public void getById() {
+	public void insertArticleOrder() {
 
-		DomainEntitySimple domainEntitySimple = domainEntitySimpleRepository.getDomainEntitySimpleById(1);
+		int countBefore = artikelOrderRepository.count();
 
-		assertEquals((Integer) 1, (Integer) domainEntitySimple.getId());
+		User areg = new User();
+		areg.setUsername("Areg");
+		userRepository.save(areg);
+
+		Article article = new Article();
+		article.setTitle("Article 1");
+		article.setOwner(areg);
+
+		ArticleOrder articleOrder = new ArticleOrder();
+		articleOrder.setUser(areg);
+
+		ArticleOrderRow articleOrderRow = new ArticleOrderRow();
+		articleOrderRow.setArticle(article);
+		articleOrderRow.setAmount(3);
+		articleOrderRow.setOrder(articleOrder);
+
+
+		artikelRepository.save(article);
+		artikelOrderRepository.save(articleOrder);
+		artikelOrderRowRepository.save(articleOrderRow);
+		
+		int countAfter = artikelOrderRepository.count();
+
+		assertTrue(userRepository.count() == 1);
+		assertTrue(artikelRepository.count() == 1);
+		assertTrue(artikelOrderRepository.count() == 1);
+		assertTrue(artikelOrderRowRepository.count() == 1);
+		//assertEquals(countAfter, countBefore + 1);
 
 	}
+
 
 }
