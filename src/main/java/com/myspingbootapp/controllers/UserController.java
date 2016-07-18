@@ -3,7 +3,7 @@ package com.myspingbootapp.controllers;
 import org.springframework.web.bind.annotation.*;
 
 import com.myspingbootapp.domain.model.User;
-import com.myspingbootapp.persistence.hibernate.UserRepository;
+import com.myspingbootapp.persistence.repositories.specific.UserRepository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -13,10 +13,7 @@ import com.myspingbootapp.domain.model.Article;
 import com.myspingbootapp.domain.model.ArticleOrderRow;
 import com.myspingbootapp.domain.model.ArticleOrder;
 import com.myspingbootapp.domain.model.User;
-import com.myspingbootapp.persistence.hibernate.ArticleOrderRowRepository;
-import com.myspingbootapp.persistence.hibernate.ArticleRepository;
-import com.myspingbootapp.persistence.hibernate.ArticleOrderRepository;
-import com.myspingbootapp.persistence.hibernate.UserRepository;
+import com.myspingbootapp.persistence.repositories.GenericRepository;
 
 import junit.framework.TestCase;
 
@@ -24,44 +21,46 @@ import junit.framework.TestCase;
 @SpringApplicationConfiguration(classes = MySpringBootAppApplication.class)
 @WebAppConfiguration
 @Transactional
-@Rollback(false) // Don't roll back transactions (database changes);
+@Rollback(true) // Roll back transactions (database changes);
 public class MySpringBootAppApplicationTests extends TestCase {
 
 	@Autowired
-	UserRepository userRepository;
+	GenericRepository genericRepository;
 
-	@Autowired
-	ArticleRepository artikelRepository;
-
-	@Autowired
-	ArticleOrderRowRepository artikelOrderRowRepository;
-
-	@Autowired
-	ArticleOrderRepository artikelOrderRepository;
-
-	//@Test
+	@Test
 	public void insertUser() {
-
-		int countBefore = userRepository.count();
 
 		User areg = new User();
 		areg.setUsername("Areg");
-		userRepository.save(areg);
+		genericRepository.save(areg);
 
-		int countAfter = userRepository.count();
+		assertTrue(genericRepository.count(User.class) == 1);
 
-		assertEquals(countAfter, countBefore + 1);
+	}
+
+	@Test
+	public void insertArticle() {
+
+		User areg = new User();
+		areg.setUsername("Areg");
+
+		Article article = new Article();
+		article.setTitle("Article 1");
+		article.setOwner(areg);
+
+		// genericRepository.save(areg); // Is implicitly saved by Hibernate
+		genericRepository.save(article);
+
+		assertTrue(genericRepository.count(User.class) == 1);
+		assertTrue(genericRepository.count(Article.class) == 1);
 
 	}
 
 	@Test
 	public void insertArticleOrder() {
 
-		int countBefore = artikelOrderRepository.count();
-
 		User areg = new User();
 		areg.setUsername("Areg");
-		userRepository.save(areg);
 
 		Article article = new Article();
 		article.setTitle("Article 1");
@@ -75,20 +74,18 @@ public class MySpringBootAppApplicationTests extends TestCase {
 		articleOrderRow.setAmount(3);
 		articleOrderRow.setOrder(articleOrder);
 
+		/*
+		 * These are implicitly saved by Hibernate
+		 */
+		// genericRepository.save(areg); 
+		// genericRepository.save(article); 
+		// genericRepository.save(articleOrder); 
+		genericRepository.save(articleOrderRow);
 
-		artikelRepository.save(article);
-		artikelOrderRepository.save(articleOrder);
-		artikelOrderRowRepository.save(articleOrderRow);
-		
-		int countAfter = artikelOrderRepository.count();
-
-		assertTrue(userRepository.count() == 1);
-		assertTrue(artikelRepository.count() == 1);
-		assertTrue(artikelOrderRepository.count() == 1);
-		assertTrue(artikelOrderRowRepository.count() == 1);
-		//assertEquals(countAfter, countBefore + 1);
-
+		assertTrue(genericRepository.count(User.class) == 1);
+		assertTrue(genericRepository.count(Article.class) == 1);
+		assertTrue(genericRepository.count(ArticleOrder.class) == 1);
+		assertTrue(genericRepository.count(ArticleOrderRow.class) == 1);
 	}
-
 
 }

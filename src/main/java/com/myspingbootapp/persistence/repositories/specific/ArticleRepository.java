@@ -1,4 +1,4 @@
-package com.myspingbootapp.persistence.hibernate;
+package com.myspingbootapp.persistence.repositories.specific;
 
 import com.myspingbootapp.domain.model.Article;
 
