@@ -2,6 +2,9 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function ($scope) {
 	$scope.firstName = "John";
 	$scope.lastName = "DoeCtrl";
+	$scope.fullName = function () {
+		return $scope.firstName + " " + $scope.lastName;
+	};
 	$scope.names = ['Jani', 'Hege', 'Kai'];
 });
 

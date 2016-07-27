@@ -12,8 +12,10 @@
 
 <div ng-app="myApp" ng-controller="myCtrl" ng-init="lastName='DoeInit';firstName='DoeInit'">
 
-	First Name: <input type="text" ng-model="firstName"/><br/>
-	Last Name: <input type="text" ng-model="lastName"/><br/>
+	First Name: <input type="text" ng-model="firstName"><br>
+	Last Name: <input type="text" ng-model="lastName"><br>
+	<br>
+	Full Name: {{fullName()}}
 	<br/>
 	Full Name: {{firstName + " " + lastName}}
 
@@ -39,7 +41,6 @@
 		</tr>
 	</table>
 
-	<div w3-test-directive></div>
 
 	<w3-test-directive></w3-test-directive>
 
@@ -50,15 +51,15 @@
 
 	<form name="myForm1">
 		Email:
-		<input type="email" name="myAddress1" ng-model="text">
+		<input type="email" name="myAddress1" ng-model="text"/>
 		<span ng-show="myForm1.myAddress1.$error.email">Not a valid e-mail address</span>
 	</form>
 
 	<form name="myForm2" ng-init="myText = 'post@myweb.com'">
 		Email:
-		<input type="email" name="myAddress2" ng-model="myText" required>
-		<h1>Status</h1>
-		{{myForm2.myAddress2.$valid}}
+		<input type="email" name="myAddress2" ng-model="myText" required="required"/>
+		<h3>Status</h3>
+		{{myForm2}}<br/>
 		{{myForm2.myAddress2.$dirty}}
 		{{myForm2.myAddress2.$touched}}
 	</form>
@@ -72,7 +73,7 @@
 
 	<form name="myForm3">
 		Enter your name:
-		<input name="myName" ng-model="myText" required>
+		<input name="myName" ng-model="myText" required="required"/>
 	</form>
 
 
