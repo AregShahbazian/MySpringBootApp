@@ -7,35 +7,29 @@
 </head>
 
 <body>
-<p th:text="'Hello ' +(*{name == 'Foo'}? *{name} : '(no age specified)')"/>
+<h2>Thymeleaf generated title</h2>
+<p th:text="'Hello ' +(*{name == 'Foo'}? *{name} : '(name must be Foo)')"/>
 
-
+<h2>Angular app</h2>
 <div ng-app="myApp" ng-controller="myCtrl" ng-init="lastName='DoeInit';firstName='DoeInit'">
 
-	First Name: <input type="text" ng-model="firstName"><br>
-	Last Name: <input type="text" ng-model="lastName"><br>
-	<br>
+	<h3>Two-way data binding</h3>
+	First Name: <input type="text" ng-model="firstName"/><br/>
+	Last Name: <input type="text" ng-model="lastName"/><br/>
+	<br/>
 	Full Name: {{fullName()}}
 	<br/>
 	Full Name: {{firstName + " " + lastName}}
 
+	<h3>Thymeleaf generated list</h3>
 	<table>
-		<tr>
-			<td>
-				<b>th:each</b>
-			</td>
-		</tr>
 		<tr th:each="str : ${list}">
 			<td th:text="${str}"></td>
 		</tr>
 	</table>
 
+	<h3>Angular generated list (static data)</h3>
 	<table>
-		<tr>
-			<td>
-				<b>ng-repeat</b>
-			</td>
-		</tr>
 		<tr ng-repeat="x in names">
 			<td>{{x}}</td>
 		</tr>
@@ -75,6 +69,21 @@
 		Enter your name:
 		<input name="myName" ng-model="myText" required="required"/>
 	</form>
+
+	<p><input type="text" ng-model="test"/></p>
+
+	<ul>
+		<li ng-repeat="x in names | filter : test">
+			{{ x }}
+		</li>
+	</ul>
+
+
+	<ul>
+		<li ng-repeat="x in names">
+			{{x | myFormat}}
+		</li>
+	</ul>
 
 
 </div>
